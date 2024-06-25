@@ -1,25 +1,24 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native"; 
 import CustomButton from "../components/CustomButton";
+import config from "../components/config";
 
 export default function MovieDetail({ navigation }: any): any {
-  const fetchData = () => {
-    const ACCESS_TOKEN =
-      "YOUR_ACCESS_TOKEN_HERE";
-
-    const url =
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
+  const fetchData = (): void => {
+    if (config.API_URL == null || config.API_ACCESS_TOKEN.length == null) {
+      throw new Error("ENV not found");
+    }
 
     const options = {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization: "Bearer " + ACCESS_TOKEN,
+         Authorization: `Bearer ${config.API_ACCESS_TOKEN}`,
       },
     };
 
-    fetch(url, options)
-      .then((response) => response.json())
+    fetch(config.API_URL, options)
+      .then(async (response) =>await response.json())
       .then((response) => console.log(response))
       .catch((err) => console.error(err));
   };
@@ -46,6 +45,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    fontSize: 30
-  }
-})
+    fontSize: 30,
+  },
+});
