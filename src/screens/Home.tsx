@@ -11,8 +11,8 @@ export default function Home({navigation}: any): JSX.Element {
         Home
       </Text>
       <CustomButton
-        title="MovieDetail"
-        onPress={() => navigation.navigate("MovieDetail")}
+        title="Movie Detail"
+        onPress={() => navigation.navigate("Movie Detail")}
         backgroundColor="black"
         color="white"
         fontSize={16}

@@ -14,7 +14,7 @@ export default function HomeStackNavigation(): JSX.Element {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="MovieDetail"
+                name="Movie Detail"
                 component={MovieDetail} 
             />
         </Stack.Navigator>
