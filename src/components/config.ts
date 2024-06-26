@@ -1,6 +1,7 @@
-import {API_URL,API_ACCESS_TOKEN}from '@env'
+import {API_URL,API_ACCESS_TOKEN,API_URL_RECOMEND}from '@env'
 
 export default {
     API_URL,
-    API_ACCESS_TOKEN
+    API_ACCESS_TOKEN,
+    API_URL_RECOMEND
 }
