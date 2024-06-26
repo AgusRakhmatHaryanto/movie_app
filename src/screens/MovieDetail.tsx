@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome } from "@expo/vector-icons";
+import { Movie } from "../types/app";
 import {
   View,
   StyleSheet,
@@ -8,7 +9,9 @@ import {
   ImageBackground,
   ScrollView,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import MovieItem from "../components/movies/MovieItem";
 import config from "../components/config";
 
@@ -27,6 +30,69 @@ export default function MovieDetail({ route }: any): JSX.Element {
   const { movie, size, coverType } = route.params.data;
   const [recomendations, setRecomendations] = React.useState([]);
   const { API_ACCESS_TOKEN, API_URL_RECOMEND } = config;
+  const [isFavorite, setIsFavorite] = React.useState(false);
+
+  const addFavorite = async (movie: Movie): Promise<void> => {
+    try {
+      const initialData: string | null =
+        await AsyncStorage.getItem("@FavoriteList");
+      let favMovieList: Movie[] = [];
+
+      if (initialData !== null) {
+        favMovieList = JSON.parse(initialData);
+      }
+
+      favMovieList.push(movie);
+
+      await AsyncStorage.setItem("@FavoriteList", JSON.stringify(favMovieList));
+      setIsFavorite(true);
+    } catch (error) {
+      console.error("Error adding to favorites:", error);
+    }
+  };
+
+  const removeFavorite = async (id: number): Promise<void> => {
+    try {
+      const initialData: string | null =
+        await AsyncStorage.getItem("@FavoriteList");
+
+      if (initialData !== null) {
+        let favMovieList: Movie[] = JSON.parse(initialData);
+        favMovieList = favMovieList.filter((movie) => movie.id !== id);
+
+        await AsyncStorage.setItem(
+          "@FavoriteList",
+          JSON.stringify(favMovieList)
+        );
+        setIsFavorite(false);
+      }
+    } catch (error) {
+      console.error("Error removing from favorites:", error);
+    }
+  };
+
+  const checkIsFavorite = async (): Promise<void> => {
+    try {
+      const initialData: string | null =
+        await AsyncStorage.getItem("@FavoriteList");
+
+      if (initialData !== null) {
+        const favMovieList: Movie[] = JSON.parse(initialData);
+        const isFav = favMovieList.some((favMovie) => favMovie.id === movie.id);
+        setIsFavorite(isFav);
+      }
+    } catch (error) {
+      console.error("Error checking favorites:", error);
+    }
+  };
+
+  const toggleFavorite = (): void => {
+    if (isFavorite) {
+      removeFavorite(movie.id);
+    } else {
+      addFavorite(movie);
+    }
+  };
 
   const getRecomendList = (): void => {
     const url = `${API_URL_RECOMEND}/${movie.id}/recommendations`;
@@ -46,6 +112,7 @@ export default function MovieDetail({ route }: any): JSX.Element {
 
   useEffect(() => {
     getRecomendList();
+    checkIsFavorite();
   }, []);
 
   return (
@@ -65,10 +132,26 @@ export default function MovieDetail({ route }: any): JSX.Element {
           locations={[0.6, 0.8]}
           style={styles.gradientStyle}
         >
-          <Text style={styles.movieTitle}>{movie.title}</Text>
-          <View style={styles.ratingContainer}>
-            <FontAwesome name="star" size={16} color="yellow" />
-            <Text style={styles.rating}>{movie.vote_average.toFixed(1)}</Text>
+          <View style={styles.headerContainer}>
+            <View>
+              <Text style={styles.movieTitle}>{movie.title}</Text>
+              <View style={styles.ratingContainer}>
+                <FontAwesome name="star" size={16} color="yellow" />
+                <Text style={styles.rating}>
+                  {movie.vote_average.toFixed(1)}
+                </Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.favoriteButton}
+              onPress={toggleFavorite}
+            >
+              <FontAwesome
+                name="heart"
+                size={24}
+                color={isFavorite ? "red" : "white"}
+              />
+            </TouchableOpacity>
           </View>
         </LinearGradient>
       </ImageBackground>
@@ -124,6 +207,20 @@ const styles = StyleSheet.create({
     display: "flex",
     marginTop: 32,
   },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    marginTop: 12,
+  },
+  favoriteButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.7)",
+    padding: 8,
+    borderRadius: 100,
+  },
   overview: {
     color: "black",
     fontSize: 16,
@@ -175,10 +272,10 @@ const styles = StyleSheet.create({
   infoColumn: {
     flexDirection: "column",
     flex: 1,
-    alignItems: "center",
+    // alignContent: "center",
   },
   infoRow: {
-    alignItems: "center",
+    // alignItems: "center",
     marginVertical: 5,
   },
   infoTitle: {
@@ -205,5 +302,23 @@ const styles = StyleSheet.create({
   },
   movieList: {
     paddingHorizontal: 12,
+  },
+
+  favoriteButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.7)",
+    paddingVertical: 12,
+    marginTop: 12,
+  },
+  favoriteActive: {
+    backgroundColor: "red",
+  },
+  favoriteButtonText: {
+    color: "white",
+    marginLeft: 8,
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
