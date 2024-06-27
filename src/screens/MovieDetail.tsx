@@ -122,9 +122,7 @@ export default function MovieDetail({ route }: any): JSX.Element {
         style={[size, styles.backgroundImage]}
         imageStyle={styles.backgroundImageStyle}
         source={{
-          uri: `https://image.tmdb.org/t/p/w500${
-            coverType === "backdrop" ? movie.backdrop_path : movie.poster_path
-          }`,
+          uri: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
         }}
       >
         <LinearGradient
@@ -134,7 +132,7 @@ export default function MovieDetail({ route }: any): JSX.Element {
         >
           <View style={styles.headerContainer}>
             <View>
-              <Text style={styles.movieTitle}>{movie.title||movie.name}</Text>
+              <Text style={styles.movieTitle}>{movie.title || movie.name}</Text>
               <View style={styles.ratingContainer}>
                 <FontAwesome name="star" size={16} color="yellow" />
                 <Text style={styles.rating}>

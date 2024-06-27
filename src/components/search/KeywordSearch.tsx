@@ -52,13 +52,9 @@ export default function KeywordSearch(): JSX.Element {
           <MovieItem
             movie={item}
             size={{ width: "100%", height: 200 }}
-            coverType="backdrop"
+            coverType="poster"
             style={styles.movieItem}
           />
-          {/* Optional: Uncomment to include movie description */}
-          {/* <Text style={styles.collectionDescription}>
-            {item.overview || "No description available"}
-          </Text> */}
         </View>
       </TouchableOpacity>
     );
@@ -66,7 +62,7 @@ export default function KeywordSearch(): JSX.Element {
 
   return (
     <View style={{ padding: 20 }}>
-      <Text>Keyword Search</Text>
+      {/* <Text>Keyword Search</Text> */}
       <TextInput
         style={{
           height: 40,

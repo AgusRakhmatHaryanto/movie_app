@@ -37,7 +37,7 @@ export default function MovieItem({
         imageStyle={styles.backgroundImageStyle}
         source={{
           uri: `https://image.tmdb.org/t/p/w500${
-            coverType === "backdrop" ? movie.backdrop_path : movie.poster_path
+            coverType === "backdrop" ? movie.backdrop_path: movie.poster_path 
           }`,
         }}
       >
@@ -50,7 +50,7 @@ export default function MovieItem({
           <View style={styles.ratingContainer}>
             <FontAwesome name="star" size={16} color="yellow" />
             <Text style={styles.rating}>{movie.vote_average?.toFixed(1)}</Text>
-          </View>
+          </View> 
         </LinearGradient>
       </ImageBackground>
     </TouchableOpacity>

@@ -36,7 +36,7 @@ export default function Favorite(): JSX.Element {
     navigation.navigate("Movie Detail", {
       data: {
         movie,
-        coverType: "backdrop",
+        coverType: "poster",
         size: { width: "100%", height: 200 },
       },
     });
@@ -56,7 +56,7 @@ export default function Favorite(): JSX.Element {
               <MovieItem
                 movie={item}
                 size={{ width: "100%", height: 200 }}
-                coverType="backdrop"
+                coverType="poster"
                 style={styles.movieItem}
               />
             </TouchableOpacity>

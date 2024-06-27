@@ -4,6 +4,8 @@ import {
   API_URL_RECOMEND,
   API_URL_SEARCH_KEYWORD,
   include,
+  API_URL_GENRE_LIST,
+  API_URL_SEARCH_MOVIE_BY_GENRE,
 } from "@env";
 
 export default {
@@ -12,4 +14,6 @@ export default {
   API_URL_RECOMEND,
   API_URL_SEARCH_KEYWORD,
   include,
+  API_URL_GENRE_LIST,
+  API_URL_SEARCH_MOVIE_BY_GENRE,
 };
