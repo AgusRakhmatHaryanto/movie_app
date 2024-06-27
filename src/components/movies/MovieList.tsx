@@ -50,7 +50,7 @@ export default function MovieList({
         <View style={styles.purpleLabel}></View>
         <Text style={styles.title}>{title}</Text>
       </View>
-      {/* Tambahkan code di bawah ini */}
+      
       <FlatList
         style={{
           ...styles.movieList,

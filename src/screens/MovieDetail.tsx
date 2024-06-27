@@ -31,7 +31,7 @@ export default function MovieDetail({ route }: any): JSX.Element {
   const [recomendations, setRecomendations] = React.useState([]);
   const { API_ACCESS_TOKEN, API_URL_RECOMEND } = config;
   const [isFavorite, setIsFavorite] = React.useState(false);
-
+  console.log(movie);
   const addFavorite = async (movie: Movie): Promise<void> => {
     try {
       const initialData: string | null =
@@ -122,9 +122,7 @@ export default function MovieDetail({ route }: any): JSX.Element {
         style={[size, styles.backgroundImage]}
         imageStyle={styles.backgroundImageStyle}
         source={{
-          uri: `https://image.tmdb.org/t/p/w500${
-            coverType === "backdrop" ? movie.backdrop_path : movie.poster_path
-          }`,
+          uri: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
         }}
       >
         <LinearGradient
@@ -134,11 +132,11 @@ export default function MovieDetail({ route }: any): JSX.Element {
         >
           <View style={styles.headerContainer}>
             <View>
-              <Text style={styles.movieTitle}>{movie.title}</Text>
+              <Text style={styles.movieTitle}>{movie.title || movie.name}</Text>
               <View style={styles.ratingContainer}>
                 <FontAwesome name="star" size={16} color="yellow" />
                 <Text style={styles.rating}>
-                  {movie.vote_average.toFixed(1)}
+                  {movie.vote_average?.toFixed(1)}
                 </Text>
               </View>
             </View>
@@ -156,6 +154,7 @@ export default function MovieDetail({ route }: any): JSX.Element {
         </LinearGradient>
       </ImageBackground>
       <Text style={styles.overview}>{movie.overview}</Text>
+
       <View style={styles.infoContainer}>
         <View style={styles.infoColumn}>
           <View style={styles.infoRow}>
@@ -267,15 +266,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 16,
+    margin: 20,
     width: "90%",
   },
   infoColumn: {
     flexDirection: "column",
     flex: 1,
-    // alignContent: "center",
+    alignItems: "center",
   },
   infoRow: {
-    // alignItems: "center",
+    alignItems: "center",
     marginVertical: 5,
   },
   infoTitle: {
