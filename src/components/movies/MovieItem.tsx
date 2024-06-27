@@ -46,10 +46,10 @@ export default function MovieItem({
           locations={[0.6, 0.8]}
           style={styles.gradientStyle}
         >
-          <Text style={styles.movieTitle}>{movie.title}</Text>
+          <Text style={styles.movieTitle}>{movie.title || movie.original_title}</Text>
           <View style={styles.ratingContainer}>
             <FontAwesome name="star" size={16} color="yellow" />
-            <Text style={styles.rating}>{movie.vote_average.toFixed(1)}</Text>
+            <Text style={styles.rating}>{movie.vote_average?.toFixed(1)}</Text>
           </View>
         </LinearGradient>
       </ImageBackground>

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import MovieItem from "../components/movies/MovieItem";
@@ -21,14 +27,19 @@ export default function Favorite(): JSX.Element {
         console.error("Error fetching favorites:", error);
       }
     };
-  
+
     fetchFavoriteMovies();
-  }, [favoriteMovies]); // Add favoriteMovies to the dependency array
-  
+  }, [favoriteMovies]);
 
   const navigateToMovieDetail = (movie: Movie) => {
     console.log("Navigating to MovieDetail with movie:", movie);
-    navigation.navigate("Movie Detail", { data: { movie, coverType: "backdrop", size: { width: "100%", height: 200 } } });
+    navigation.navigate("Movie Detail", {
+      data: {
+        movie,
+        coverType: "backdrop",
+        size: { width: "100%", height: 200 },
+      },
+    });
   };
 
   return (
